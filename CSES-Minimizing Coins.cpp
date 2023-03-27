@@ -1,34 +1,26 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<utility>
+#include<algorithm>
+#include<functional>
+#include<climits>
 using namespace std;
-#define ll long long
-const ll N = 1e6 + 5;
-ll dp[N];
-int32_t main(){
-ios_base::sync_with_stdio(false);cin.tie(NULL);
-ll n, x;
-cin >> n >> x;
-vector<ll>coins(n + 1);
-for(ll i = 0; i < n; ++i) cin >> coins[i];
-for(ll i = 0; i <= x; ++i){
-	dp[i] = INT_MAX;
+#define int long long 
+signed main() {
+    int n, k;
+    cin >> n >> k;
+    vector<int>coins(n);
+    for (auto& i : coins) cin >> i;
+    vector<int>dp(k + 2, INT_MAX);
+    dp[0] = 0;
+    for (int c = 0; c < n; c++) {
+        for (int amount = 1; amount <= k; amount++) {
+            if (amount - coins[c] >= 0) {
+                dp[amount] = min(dp[amount], dp[amount - coins[c]] + 1); // IF WE TAKE COIN 2 AND AMOUNT IS 5, THEN WE HAVE TO ENSURE THAT, THERE IS A WAY TO CONSTRUCT 3 BY TAKING ONE OR MORE PREVIOUS COINS.
+            }
+        }
+    }
+    if (dp[k] == INT_MAX) cout << -1 << '\n';
+    else cout << dp[k] << '\n';
+
 }
- 
-dp[0] = 0;
- 
-for(ll i = 1; i <= n; ++i){
-	for(ll amount = 0; amount <= x; amount++){
-		if(amount - coins[i - 1] >= 0){
-			dp[amount] = min(dp[amount], dp[amount - coins[i - 1]] + 1); 
-		}
-	}
-}
-if(dp[x] == INT_MAX) cout << -1 << '\n';
-else cout << dp[x] << '\n';
- 
- 
-}
- 
- 
- 
- 
- 
